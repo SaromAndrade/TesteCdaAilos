@@ -1,0 +1,214 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Movimento API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Movimento/saldo/{numeroContaCorrente}": {
+      "get": {
+        "tags": [
+          "Movimento"
+        ],
+        "parameters": [
+          {
+            "name": "numeroContaCorrente",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaldoResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaldoResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SaldoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Movimento/movimento": {
+      "post": {
+        "tags": [
+          "Movimento"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarMovimentoCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarMovimentoCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarMovimentoCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CriarMovimentoCommand": {
+        "type": "object",
+        "properties": {
+          "chaveIdempotencia": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "numeroContaCorrente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valor": {
+            "type": "number",
+            "format": "double"
+          },
+          "tipoMovimento": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": { }
+      },
+      "SaldoResponse": {
+        "type": "object",
+        "properties": {
+          "numeroConta": {
+            "type": "string",
+            "nullable": true
+          },
+          "nomeTitular": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataHoraConsulta": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "saldo": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
